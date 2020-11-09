@@ -1,4 +1,4 @@
-# spaceX-launch-program-details
+# SpaceX Launch Program Details
 This repo contains code for angular app which shows launch details of spaceX.
 
 # How to run this application
