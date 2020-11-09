@@ -1,0 +1,34 @@
+<div class="launchList">
+  <div class="launchListItem" *ngFor="let item of data">
+    <div class="imageContainer">
+      <!-- <p>asasasas</p> -->
+      <img
+        src="{{
+          scrWidth < 701
+            ? item.links.mission_patch_small
+            : item.links.mission_patch
+        }}"
+        alt="Missile image"
+      />
+    </div>
+    <ul>
+      <h4>{{ item.mission_name }} #{{ item.flight_number }}</h4>
+      <li>
+        <span class="missionInfoLabel">Mission Ids:</span>
+        <span>list mission ids</span>
+      </li>
+      <li>
+        <span class="missionInfoLabel">Launch Year:</span>
+        <span>{{ item.launch_year }}</span>
+      </li>
+      <li>
+        <span class="missionInfoLabel">Successful Launch:</span>
+        <span>{{ item.launch_success }}</span>
+      </li>
+      <li>
+        <span class="missionInfoLabel"> Successful Landing: </span>
+        <span>{{ item.rocket.first_stage.cores[0].land_success }}</span>
+      </li>
+    </ul>
+  </div>
+</div>

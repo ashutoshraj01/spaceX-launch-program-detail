@@ -1,0 +1,29 @@
+<div class="filters">
+  <h2>Filters</h2>
+  <span class="subHeading">Launch Year</span>
+  <div class="launchYears">
+    <button 
+    *ngFor="let year of launchYears" 
+    (click)="filterData($event,year)"
+    [ngClass]="year == selectedYear ? 'selected' : 'unselected'" 
+    >
+      {{ year }}
+    </button>
+  </div>
+  <div class="successfulLaunch">
+    <span class="subHeading">Successful Launch</span>
+    <button 
+    (click)="filterLaunchData($event,launch)"
+    *ngFor="let launch of successfulLaunch"
+    [ngClass]="launch == selectedLaunch ? 'selected' : 'unselected'"
+    >{{ launch }}</button>
+  </div>
+  <div class="successfulLanding">
+    <span class="subHeading">successful Landing</span>
+    <button 
+    (click)="filterLandingData($event,landing)"
+    *ngFor="let landing of successfulLanding"
+    [ngClass]="landing == selectedLanding ? 'selected' : 'unselected'" 
+    >{{ landing }}</button>
+  </div>
+</div>
