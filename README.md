@@ -10,6 +10,18 @@ This repo contains code for angular app which shows launch details of spaceX.
 # This application is deployed on Heroku
 ## Link = https://spacex-launch-program-details.herokuapp.com/
 
+## Design Approach Used:-
+* Mobile First Design 
+* Css Media queries used for responsive behaviour
+
+# Libraries, Modules, Languages & Framework used
+  * Angular
+  * ExpressJs
+  * CSS
+  * TypeScript
+  * RxJS
+  * Jasmine
+  * Karma
 
 ## Lighthouse Report
 ![Light House Data](https://github.com/ashutoshraj01/spaceX-launch-program-detail/blob/master/Screenshot%20from%202020-11-09%2017-05-05.png)
