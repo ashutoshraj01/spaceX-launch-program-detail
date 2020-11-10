@@ -14,8 +14,8 @@ export class FiltersComponent implements OnInit {
   selectedYear: '';
   selectedLanding = '';
   data: any;
-  launchStatus:any;
-  landStatus:any
+  launchStatus: any;
+  landStatus: any;
 
 
   constructor(
@@ -23,69 +23,62 @@ export class FiltersComponent implements OnInit {
     private spaceXLaunchService: SpaceXLaunchService
     ) { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  getSelectedFilterData(){
+    this.setSelectedStatus();
+    // none of the filters selected
+   if((this.selectedYear == '' || this.selectedYear == undefined) && this.selectedLanding == '' && this.selectedLaunch == ''){
+     this.getHomeData();
+   } // All of the filters selected
+   else if((this.selectedYear != '' || this.selectedYear != undefined) && this.selectedLanding != '' && this.selectedLaunch != ''){
+     this.getMultiFilterData(this.selectedYear,this.launchStatus,this.landStatus);
+   } // Only Year is selected 
+   else if(this.selectedYear && (this.selectedLanding == '' && this.selectedLaunch == '')){
+     this.getFilterYearData(this.selectedYear);
+   }// Only Launch is selected
+   else if(this.selectedLaunch && (this.selectedLanding == '' && (this.selectedYear =='' || this.selectedYear == undefined))){
+    this.getLaunchData();
+   }// Only Landing is selected
+   else if(this.selectedLanding && (this.selectedLaunch == '' && (this.selectedYear =='' || this.selectedYear == undefined))){
+    this.getLaunchAndLandingData();
+   }// Year and Launch is selected
+   else if((this.selectedYear && this.selectedLaunch) && this.selectedLanding ==  ''){
+     this.getMultiFilterData(this.selectedYear, this.launchStatus);
+   } // Year and Land is selected
+   else if((this.selectedYear && this.selectedLanding) && this.selectedLaunch ==  ''){
+    this.getMultiFilterData(this.selectedYear,this.launchStatus,this.landStatus);
+  }// Land and Launch is selected
+  else if((this.selectedLanding && this.selectedLaunch) && (this.selectedYear =='' || this.selectedYear == undefined)){
+    this.getLaunchAndLandingData();
   } 
+    
+  }
 
-
-  setSelectedStatus(){
-    this.launchStatus= this.selectedLaunch == '' ? 'True' : this.selectedLaunch;
+  setSelectedStatus() {
+    this.launchStatus = this.selectedLaunch == '' ? 'True' : this.selectedLaunch;
     this.landStatus = this.selectedLanding == '' ? 'True' : this.selectedLanding;
     this.launchStatus = this.launchStatus == 'True' ? true : false;
     this.landStatus = this.landStatus == 'True' ? true : false;
   }
 
   filterData(year) {
-    this.selectedYear = this.selectedYear == year ? '': year ;
-    if(this.selectedYear == ''){
-       if(this.launchStatus !== '' && this.landStatus !== ''){
-        this.getLandingData();
-       }
-       else if(this.launchStatus !== ''){
-        this.getLaunchData();
-      }else{
-        this.getLandingData();
-      }
-    }
-    else if(this.checkFilterStatus()){
-      this.setSelectedStatus();
-      this.getMultiFilterData(this.selectedYear,this.launchStatus,this.landStatus);
-    }else{
-    this.getFilterYearData(year);
-    }
+    this.selectedYear = this.selectedYear == year ? '' : year ;
+   this.getSelectedFilterData();
   }
 
   filterLaunchData(selectedLaunch) {
-    this.selectedLaunch = this.selectedLaunch == selectedLaunch ? '': selectedLaunch ;
-    if(this.selectedLaunch == ''){
-      this.setSelectedStatus();
-      this.getMultiFilterData(this.selectedYear,this.launchStatus,this.landStatus);
-    }
-    else if(this.checkFilterStatus()){
-      this.setSelectedStatus();
-      this.getMultiFilterData(this.selectedYear,this.launchStatus,this.landStatus);
-    }else{
-      this.getLaunchData();
-    }
+    this.selectedLaunch = this.selectedLaunch == selectedLaunch ? '' : selectedLaunch ;
+    this.getSelectedFilterData();
   }
 
   filterLandingData(selectedLanding) {
-   this.selectedLanding = this.selectedLanding == selectedLanding ? '': selectedLanding ;
-   if(this.checkFilterStatus()){
-    this.setSelectedStatus();
-    this.getMultiFilterData(this.selectedYear,this.launchStatus,this.landStatus);
-  }else{
-    this.getLandingData();
-   }
+   this.selectedLanding = this.selectedLanding == selectedLanding ? '' : selectedLanding ;
+   this.getSelectedFilterData();
   }
 
 
-  checkFilterStatus(){
-    if((this.selectedYear && this.selectedLaunch) || (this.selectedYear && this.selectedLanding) ||(this.selectedYear && this.selectedLaunch && this.selectedLanding)){
-      return true;
-    }
-   return false;
-  }
-  
+
   getFilterYearData(launchYear) {
     this.spaceXLaunchService.getSpaceXLaunchYearDataUsingFilters(launchYear)
     .subscribe(
@@ -102,7 +95,6 @@ export class FiltersComponent implements OnInit {
   }
 
   getLaunchData() {
-    this.setSelectedStatus();
     this.spaceXLaunchService.getSpaceXLaunchDataUsingFilters(this.launchStatus)
     .subscribe(
       res => {
@@ -117,8 +109,7 @@ export class FiltersComponent implements OnInit {
     );
   }
 
-  getLandingData() {
-    this.setSelectedStatus();
+  getLaunchAndLandingData() {
     this.spaceXLaunchService.getSpaceXDataUsingFilters(this.launchStatus,
       this.landStatus)
     .subscribe(
@@ -134,9 +125,9 @@ export class FiltersComponent implements OnInit {
     );
   }
 
- 
-  getMultiFilterData(year,launch_success=true,land_success=true){
-    this.spaceXLaunchService.getSpaceXDataUsingMultipleFilters(year, launch_success,land_success)
+
+  getMultiFilterData(year, launch_success= true, land_success= true) {
+    this.spaceXLaunchService.getSpaceXDataUsingMultipleFilters(year, launch_success, land_success)
     .subscribe(
       res => {
         if (res) {
@@ -150,7 +141,7 @@ export class FiltersComponent implements OnInit {
     );
   }
 
-  getHomeData(){
+  getHomeData() {
     this.spaceXLaunchService.getSpaceXLaunchData()
     .subscribe(
       res => {
