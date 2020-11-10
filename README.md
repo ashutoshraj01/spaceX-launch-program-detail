@@ -8,7 +8,7 @@ This repo contains code for angular app which shows launch details of spaceX.
  * open your browser and enter http://localhost:4200/
 
 # This application is deployed on Heroku
-## Link = https://spacex-launch-program-details.herokuapp.com/
+## Link = https://enigmatic-scrubland-78647.herokuapp.com/
 
 ## Design Approach Used:-
 * Mobile First Design 
