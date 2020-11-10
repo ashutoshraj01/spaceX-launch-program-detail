@@ -19,12 +19,16 @@ export class SpaceXLaunchService {
   getSpaceXLaunchYearDataUsingFilters(reqYear: Number) {
     return this.httpClient.get(`https://api.spaceXdata.com/v3/launches?limit=100&launch_success=true&land_success=true&launch_year=${reqYear}`);
   }
- getSpaceXLaunchDataUsingFilters(data) {
-  return this.httpClient.get(`https://api.spaceXdata.com/v3/launches?limit=100&launch_success=${data}`);
+ getSpaceXLaunchDataUsingFilters(launch_success) {
+  return this.httpClient.get(`https://api.spaceXdata.com/v3/launches?limit=100&launch_success=${launch_success}`);
  }
 
- getSpaceXLandingDataUsingFilters(data) {
-  return this.httpClient.get(`https://api.spaceXdata.com/v3/launches?limit=100&launch_success=true&land_success=${data}`);
+ getSpaceXDataUsingFilters(launch_success,land_success) {
+  return this.httpClient.get(`https://api.spaceXdata.com/v3/launches?limit=100&launch_success=${launch_success}&land_success=${land_success}`);
+ }
+ 
+ getSpaceXDataUsingMultipleFilters(year,launch_success, land_success) {
+  return this.httpClient.get(`https://api.spaceXdata.com/v3/launches?limit=100&launch_success=${launch_success}&land_success=${land_success}&launch_year=${year}`);
  }
 
 }
