@@ -37,8 +37,11 @@ export class FiltersComponent implements OnInit {
   filterData(year) {
     this.selectedYear = this.selectedYear == year ? '': year ;
     if(this.selectedYear == ''){
-       if(this.launchStatus !== ''){
-         this.getLaunchData();
+       if(this.launchStatus !== '' && this.landStatus !== ''){
+        this.getLandingData();
+       }
+       else if(this.launchStatus !== ''){
+        this.getLaunchData();
       }else{
         this.getLandingData();
       }
