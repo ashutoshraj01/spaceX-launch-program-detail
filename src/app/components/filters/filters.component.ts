@@ -14,6 +14,8 @@ export class FiltersComponent implements OnInit {
   selectedYear: '';
   selectedLanding = '';
   data: any;
+  launchStatus:any;
+  landStatus:any
 
 
   constructor(
@@ -21,12 +23,66 @@ export class FiltersComponent implements OnInit {
     private spaceXLaunchService: SpaceXLaunchService
     ) { }
 
-
   ngOnInit() {
+  } 
 
+
+  setSelectedStatus(){
+    this.launchStatus= this.selectedLaunch == '' ? 'True' : this.selectedLaunch;
+    this.landStatus = this.selectedLanding == '' ? 'True' : this.selectedLanding;
+    this.launchStatus = this.launchStatus == 'True' ? true : false;
+    this.landStatus = this.landStatus == 'True' ? true : false;
+  }
+
+  filterData(year) {
+    this.selectedYear = this.selectedYear == year ? '': year ;
+    if(this.selectedYear == ''){
+       if(this.launchStatus !== ''){
+         this.getLaunchData();
+      }else{
+        this.getLandingData();
+      }
+    }
+    else if(this.checkFilterStatus()){
+      this.setSelectedStatus();
+      this.getMultiFilterData(this.selectedYear,this.launchStatus,this.landStatus);
+    }else{
+    this.getFilterYearData(year);
+    }
+  }
+
+  filterLaunchData(selectedLaunch) {
+    this.selectedLaunch = this.selectedLaunch == selectedLaunch ? '': selectedLaunch ;
+    if(this.selectedLaunch == ''){
+      this.setSelectedStatus();
+      this.getMultiFilterData(this.selectedYear,this.launchStatus,this.landStatus);
+    }
+    else if(this.checkFilterStatus()){
+      this.setSelectedStatus();
+      this.getMultiFilterData(this.selectedYear,this.launchStatus,this.landStatus);
+    }else{
+      this.getLaunchData();
+    }
+  }
+
+  filterLandingData(selectedLanding) {
+   this.selectedLanding = this.selectedLanding == selectedLanding ? '': selectedLanding ;
+   if(this.checkFilterStatus()){
+    this.setSelectedStatus();
+    this.getMultiFilterData(this.selectedYear,this.launchStatus,this.landStatus);
+  }else{
+    this.getLandingData();
+   }
   }
 
 
+  checkFilterStatus(){
+    if((this.selectedYear && this.selectedLaunch) || (this.selectedYear && this.selectedLanding) ||(this.selectedYear && this.selectedLaunch && this.selectedLanding)){
+      return true;
+    }
+   return false;
+  }
+  
   getFilterYearData(launchYear) {
     this.spaceXLaunchService.getSpaceXLaunchYearDataUsingFilters(launchYear)
     .subscribe(
@@ -42,8 +98,9 @@ export class FiltersComponent implements OnInit {
     );
   }
 
-  getLaunchData(data) {
-    this.spaceXLaunchService.getSpaceXLaunchDataUsingFilters(data)
+  getLaunchData() {
+    this.setSelectedStatus();
+    this.spaceXLaunchService.getSpaceXLaunchDataUsingFilters(this.launchStatus)
     .subscribe(
       res => {
         if (res) {
@@ -57,8 +114,10 @@ export class FiltersComponent implements OnInit {
     );
   }
 
-  getLandingData(data) {
-    this.spaceXLaunchService.getSpaceXLandingDataUsingFilters(data)
+  getLandingData() {
+    this.setSelectedStatus();
+    this.spaceXLaunchService.getSpaceXDataUsingFilters(this.launchStatus,
+      this.landStatus)
     .subscribe(
       res => {
         if (res) {
@@ -72,28 +131,34 @@ export class FiltersComponent implements OnInit {
     );
   }
 
-  filterData(event: any, year) {
-    this.selectedYear = year;
-    this.selectedLanding = '';
-    this.selectedLaunch = '';
-    this.getFilterYearData(year);
+ 
+  getMultiFilterData(year,launch_success=true,land_success=true){
+    this.spaceXLaunchService.getSpaceXDataUsingMultipleFilters(year, launch_success,land_success)
+    .subscribe(
+      res => {
+        if (res) {
+             this.data = res;
+             this.eventService.emit<any>(this.data);
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
-  filterLaunchData(event, data) {
-    this.selectedYear = '';
-    this.selectedLanding = '';
-    this.selectedLaunch = data;
-      data = data === 'True' ? 'true' : 'false';
-      this.getLaunchData(data);
+  getHomeData(){
+    this.spaceXLaunchService.getSpaceXLaunchData()
+    .subscribe(
+      res => {
+        if (res) {
+          this.data = res;
+          this.eventService.emit<any>(this.data);
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
-
-  filterLandingData(event, data) {
-   this.selectedLanding = data;
-   this.selectedYear = '';
-   this.selectedLaunch = '';
-      data = data === 'True' ? 'true' : 'false';
-      this.getLandingData(data);
-  }
-
-
 }
