@@ -16,18 +16,29 @@
 }
 .imageContainer {
     background: rgb(242, 242, 242);
-    width: 90%;
+    width: 85%;
     margin: 0 auto;
     margin-top: 24px;
+    height: 190px;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
 
 }
 .imageContainer img{
     display: block;
     margin-left: auto;
     width: 90%;
-    width:100px;
-    height: 200px;
+    width:100px; 
+    height: 100%; 
     margin-right: auto;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-height: 100%;
+    min-width: 100%;
+    transform: translate(-50%, -50%);
 }
 .missionInfoLabel{
     font-weight: bold;
