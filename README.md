@@ -21,6 +21,3 @@ This repo contains code for angular app which shows launch details of spaceX.
   * TypeScript
   * RxJS
   
-
-## Lighthouse Report
-![Light House Data](https://github.com/ashutoshraj01/spaceX-launch-program-detail/blob/master/Screenshot%20from%202020-11-09%2017-05-05.png)
